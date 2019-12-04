@@ -1,7 +1,24 @@
+<?php
+
+	session_start();
+		
+	
+	if(isset($_SESSION["user"])){
+		
+	}
+	if(isset($_POST["l_username"])){
+		echo $_POST["l_username"];	
+		die();
+	}
+	
+ 
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>Login/Register CyberBank</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -21,13 +38,13 @@
       <input type="text" placeholder="Username" id="r_username"/>
       <input type="password" placeholder="Password" id="r_password"/>
       <input type="text" placeholder="Verify Password" id="r_v_password"/>
-      <button>Create Account</button id="btn_register">
+      <button  id="btn_register" >Create Account</button>
       <p class="message">Already registered? <a href="#">Sign In</a></p>
     </form>
     <form class="login-form">
-      <input type="text" placeholder="Username"/>
-      <input type="password" placeholder="Password"/>
-      <button>Login</button id="btn_login">
+      <input type="text" placeholder="Username" id="l_username"/>
+      <input type="password" placeholder="Password" id="l_password"/>
+      <button id="btn_login" type="button">Login</button >
       <p class="message">Not registered? <a href="#">Create an account</a></p>
     </form>
   </div>
@@ -42,39 +59,47 @@
 	
 	
 	
+		
+		
+		
+		
+		
 	
-	$(document).ready(function(e){
-		$('btn_register').click(function(){
-		   var username = $('#r_username').val();
-		   var password= $('#r_password').val();
-		   var passwordVerify= $('#r_v_password').val();
-		   
-		   if(password !== passwordVerify){
-				alert("Passwords don't match")
-				return;
-		   }
-			
-			//TODO:
-			//	Check that username doesn't exist
-			//	Register the user
-		  
-		});
-		
-		
-		$('btn_login').click(function(){
-		   var username = $('#l_username').val();
-		   var password= $('#l_password').val();
-		   
-			
-			//TODO:
-			//	Check if username + password is correct
-			//	 Redirect to profile page
+		var test =1;
+$(document).ready(function(e){
 
-		   
-		});
+
+	$('#btn_login').click(function(){
+
+		   var l_username = $('#l_username').val();
+		   var l_password= $('#l_password').val();		   
+			$.post("./index.php",{"l_username":l_username,"l_password":l_password},
+			function(results) {
+				console.log(results);
+			});
+	});
 		
 		
-	})
+		
+	$('#btn_register').click(function(){
+
+	   var username = $('#r_username').val();
+	   var password= $('#r_password').val();
+	   var passwordVerify= $('#r_v_password').val();
+	   
+	   if(password !== passwordVerify){
+			alert("Passwords don't match")
+			return;
+	   }
+		
+		//TODO:
+		//	Check that username doesn't exist
+		//	Register the user
+		console.log(username + ' ' + password) 
+	  
+	});
+		
+})
 </script>
 
 

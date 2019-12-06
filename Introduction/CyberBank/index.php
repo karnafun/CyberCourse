@@ -1,16 +1,6 @@
 <?php
 
-	session_start();
-		
-	
-	if(isset($_SESSION["user"])){
-		
-	}
-	if(isset($_POST["l_username"])){
-		echo $_POST["l_username"];	
-		die();
-	}
-	
+
  
 ?>
 
@@ -37,13 +27,15 @@
     <form class="register-form">
       <input type="text" placeholder="Username" id="r_username"/>
       <input type="password" placeholder="Password" id="r_password"/>
-      <input type="text" placeholder="Verify Password" id="r_v_password"/>
-      <button  id="btn_register" >Create Account</button>
-      <p class="message">Already registered? <a href="#">Sign In</a></p>
+      <input type="PASSWORD" placeholder="Verify Password" id="r_v_password"/>
+	  <p id="p_registerMessage"> </p>
+      <button type="button"  id="btn_register" >Create Account</button>
+      <p class="message">Already registered? <a href="#">Sign In</a></p> 
     </form>
     <form class="login-form">
       <input type="text" placeholder="Username" id="l_username"/>
       <input type="password" placeholder="Password" id="l_password"/>
+	  <p id="p_loginMessage"></p>
       <button id="btn_login" type="button">Login</button >
       <p class="message">Not registered? <a href="#">Create an account</a></p>
     </form>
@@ -56,31 +48,32 @@
 	$('.message a').click(function(){
 	   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 	});
-	
-	
-	
-		
-		
-		
-		
-		
-	
-		var test =1;
+
 $(document).ready(function(e){
 
+
+// LOGIN : 
 
 	$('#btn_login').click(function(){
 
 		   var l_username = $('#l_username').val();
-		   var l_password= $('#l_password').val();		   
-			$.post("./index.php",{"l_username":l_username,"l_password":l_password},
-			function(results) {
-				console.log(results);
+		   var l_password= $('#l_password').val();	
+			$.post("./api/login.php",
+			{"l_username":l_username,"l_password":l_password},
+			function(results) {		
+				console.log(results);				
+				if(results.status){
+				 window.location="./pages/profile.php"
+				}else{					
+				$('#p_loginMessage').text(results.data)	
+				}
 			});
 	});
 		
-		
-		
+	
+
+
+//Register:
 	$('#btn_register').click(function(){
 
 	   var username = $('#r_username').val();
@@ -88,17 +81,23 @@ $(document).ready(function(e){
 	   var passwordVerify= $('#r_v_password').val();
 	   
 	   if(password !== passwordVerify){
-			alert("Passwords don't match")
+			$('#p_registerMessage').text("Passwords don't match");
 			return;
 	   }
 		
-		//TODO:
-		//	Check that username doesn't exist
-		//	Register the user
-		console.log(username + ' ' + password) 
-	  
-	});
+		$.post("./api/register.php",{"r_username":username,"r_password":password},
+			function(results) {				
+				if(results.status){
+					$('#p_registerMessage').text(results.data)
+					//window.location= "./pages/profile.php";
+				}else{
+					$('#p_registerMessage').text(results.data);
+				}
+		});
 		
+
+	});
+
 })
 </script>
 

@@ -3,6 +3,10 @@ $(document).ready(function(e){
 			$('#btn_registerUser').click(register);
 			$('#btn_postById').click(getpostById);
 			$('#btn_createPost').click(createPost);
+			
+			 dataString={"action":"getAllUsers"};
+
+			
 }) 
 
 
@@ -90,7 +94,7 @@ function getpostById(){
 
 function createPost(){
 	console.log("function start");
-	var author = $('#inp_createPost_author').val();
+	var author = $('#inp_createPost_author').children("option:selected").val();
 	var content= $('#inp_createPost_content').val(); 
 	var data = {"author":author,"content":content}
 	var dataString ={"action":"createPost","data":data};

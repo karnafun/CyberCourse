@@ -6,14 +6,14 @@
 // print_r($res);
 
 
-if (!isset($_POST["action"])){
+if (!isset($_REQUEST["action"])){
 	echo 'You should not be here';
 	die();
 } 
 
 
 
-$action = $_POST["action"];
+$action = $_REQUEST["action"];
 
 switch ($action){
 	
@@ -29,8 +29,15 @@ switch ($action){
 	case "createPost":
 		createPost();
 	break;
-	
+	case "getAllUsers":
+		getAllUsers();
+	break; 
+	default: 
+		echo " unknown action ".$action;
+	break;
 }
+
+
 
 function getUser(){ 
 if (!isset($_POST["data"]) || !isset($_POST["data"]["username"]) || !isset($_POST["data"]["password"])){
@@ -168,6 +175,33 @@ function getPostById(){
 	die(); 
 	
  }
+ 
+ 
+  
+ function getAllUsers(){
+	
+	$DB = new PDO("mysql:host=127.0.0.1;dbname=CyberBlog", "root", "");
+	$DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$sqlCmd = $DB->prepare("SELECT * FROM users");
+	$sqlCmd->execute();
+	$arr = array(); 
+
+	while($row = $sqlCmd->fetch()){ 
+		$user = array("id"=>$row["id"], "username"=>$row["username"],"email"=>$row["email"]);	
+		array_push($arr,$user);	
+	}
+	header("content-type: application/json");
+	echo json_encode($arr);
+	
+ }
+ 
+   
+ 
+ 
+ 
+ 
+ 
+ 
  ?> 
 
 

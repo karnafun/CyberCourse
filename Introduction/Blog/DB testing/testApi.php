@@ -44,14 +44,18 @@
 		</div> 
 		
 		<div id="section_CreatePost" class="section row" > 	
-		<span class="col-sm-12 inf">Get Post by id:</span>			
+		<span class="col-sm-12 inf">write new post:</span>			
 			
-			<input class="col-sm-3" type="text" placeholder="post author"   id="inp_createPost_author"  />			
+			<select class="col-sm-3" type="text" placeholder="post author"   id="inp_createPost_author"  />			
 			<textarea placeholder="Enter post content here" class="col-sm-12"  id="inp_createPost_content" ></textarea>
 			<button class="col-sm-3"  id="btn_createPost"> Create Post</button>			
 			<div class="col-sm-12 res"> </div>
 		</div> 
 	
+	
+	<div id="section_res" class="col-sm-3">
+
+	</div>
 </div>
 	
 	<style>
@@ -61,8 +65,22 @@
 }
 	</style>
 	<script> 
-	$(document).ready(function(){
-		   
+	$(document).ready(function(){		 
+				$.ajax({
+			url:"./api.php",
+			method :"get",
+			dataType:"json",
+			data:dataString,
+			success:function(data){
+					$(data).each(function(index,_data){
+					$('#inp_createPost_author').append(new Option(_data["username"],_data["id"]))
+					}) 
+			},
+			error:function(err){
+				console.log("ERROR! " );
+				console.log(err.responseText);  
+			}
+		});
 	})
 	
 	</script> 

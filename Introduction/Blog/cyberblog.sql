@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 26, 2019 at 04:08 PM
+-- Generation Time: Dec 29, 2019 at 04:38 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -46,6 +46,14 @@ CREATE TABLE `posts` (
   `content` varchar(3000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `posts`
+--
+
+INSERT INTO `posts` (`id`, `author`, `content`) VALUES
+(26, 83, 'asd'),
+(27, 82, 'zxcxzc');
+
 -- --------------------------------------------------------
 
 --
@@ -64,10 +72,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`) VALUES
-(1, 'dor', 'danaidor@gmail.com', '1234'),
-(4, 'asd', 'asd', 'asd'),
-(16, 'asd', 'asd', 'asd'),
-(17, 'asdzxczxc', 'aszxc', 'zxc');
+(82, 'karnafun', '', '1234'),
+(83, 'hotdog', '', '123'),
+(84, 'hotdogz', '', '123');
 
 --
 -- Indexes for dumped tables
@@ -107,13 +114,13 @@ ALTER TABLE `postcomments`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- Constraints for dumped tables

@@ -7,36 +7,62 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="./functions.js"></script>
 </head>
 <body>
+<div class="container"> 
+	
+	<div>
 	<h1 > Generic Headline  </h1> 
 	<p> This is a p with additional information  </p>
 		
 		
-		<div> 
-		<h4> Get User  </h4>
-			<input type="text" placeholder="username" style="width:250px" id="inp_getUser_username" />
-			<input type="text" placeholder="password" style="width:250px"  id="inp_getUser_password"  />
-			<button id="btn_getUser"> Get User  </button>
-		</div>
+		<div id="section_login" class="section row" > 	
+			<span class="col-sm-12 inf">Login: </span>
+			<input class="col-sm-5" type="text" placeholder="username"  id="inp_getUser_username" />
+			<input class="col-sm-5" type="text" placeholder="password"   id="inp_getUser_password"  />
+			<button class="col-sm-2"  id="btn_getUser"> Get User  </button>			
+			<div class="col-sm-12 res"> </div>
+		</div> 
 	
+	
+		<div id="section_register" class="section row" > 	
+		<span class="col-sm-12 inf">Register: </span>
+			<input class="col-sm-3" type="text" placeholder="username"  id="inp_registerUser_username" />
+			<input class="col-sm-3" type="text" placeholder="password"   id="inp_registerUser_password"  />
+			<input class="col-sm-3" type="text" placeholder="verify password"   id="inp_registerUser_password_verify"  />
+			<button class="col-sm-3"  id="btn_registerUser"> Register User  </button>			
+			<div class="col-sm-12 res"> </div>
+		</div> 
+		
+		
+		<div id="section_GetPost" class="section row" > 	
+		<span class="col-sm-3 inf">Get Post by id:</span>			
+			<input class="col-sm-5" type="text" placeholder="post id"   id="inp_getPostById_postId"  />
+			<button class="col-sm-3"  id="btn_postById"> Get Post by id  </button>			
+			<div class="col-sm-12 res"> </div>
+		</div> 
+		
+		<div id="section_CreatePost" class="section row" > 	
+		<span class="col-sm-12 inf">Get Post by id:</span>			
+			
+			<input class="col-sm-3" type="text" placeholder="post author"   id="inp_createPost_author"  />			
+			<textarea placeholder="Enter post content here" class="col-sm-12"  id="inp_createPost_content" ></textarea>
+			<button class="col-sm-3"  id="btn_createPost"> Create Post</button>			
+			<div class="col-sm-12 res"> </div>
+		</div> 
+	
+</div>
+	
+	<style>
+.section{
+	border-bottom:5px solid gray;
+	margin-bottom:20px;
+}
+	</style>
 	<script> 
 	$(document).ready(function(){
-		$('#btn_getUser').click(function(e){
-			
-			var username = $('#inp_getUser_username').val();
-			var password= $('#inp_getUser_password').val();
-			//console.log("username : "+username+ ", password: "+password);
-			
-			var data = {"username":username, "password":password};
-			var resultString =  {"action":"login","data":data};
-			$.post('./api.php',
-			resultString,
-			function(data){
-				
-				console.log(data);					
-			})
-		})
+		   
 	})
 	
 	</script> 

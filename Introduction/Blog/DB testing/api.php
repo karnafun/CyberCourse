@@ -32,6 +32,9 @@ switch ($action){
 	case "getAllUsers":
 		getAllUsers();
 	break; 
+	case "getPostsByAuthor":
+		getPostsByAuthor();
+	break;
 	default: 
 		echo " unknown action ".$action;
 	break;
@@ -180,6 +183,7 @@ function getPostById(){
   
  function getAllUsers(){
 	
+	
 	$DB = new PDO("mysql:host=127.0.0.1;dbname=CyberBlog", "root", "");
 	$DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	$sqlCmd = $DB->prepare("SELECT * FROM users");
@@ -196,7 +200,22 @@ function getPostById(){
  }
  
    
- 
+ function getPostsByAuthor(){
+	 	$data = $_POST["data"]; 		
+	$author = $data["author"];	
+	$DB = new PDO("mysql:host=127.0.0.1;dbname=CyberBlog", "root", "");
+	$DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$sqlCmd = $DB->prepare("SELECT * FROM v_postswithauthorname where authorId = :author");
+	$sqlCmd->execute(array(":author"=>$author));
+	$arr = array(); 
+
+	while($row = $sqlCmd->fetch()){ 
+		$post= array("id"=>$row["id"], "author"=>$row["author"],"content"=>$row["content"]);	
+		array_push($arr,$post);	
+	}
+	header("content-type: application/json");
+	echo json_encode($arr);
+ }
  
  
  

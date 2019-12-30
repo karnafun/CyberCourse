@@ -25,7 +25,7 @@
 			<div class="col-sm-12 res"> </div>
 		</div> 
 	
-	
+	<hr>
 		<div id="section_register" class="section row" > 	
 		<span class="col-sm-12 inf">Register: </span>
 			<input class="col-sm-3" type="text" placeholder="username"  id="inp_registerUser_username" />
@@ -35,27 +35,36 @@
 			<div class="col-sm-12 res"> </div>
 		</div> 
 		
-		
+		<hr>
 		<div id="section_GetPost" class="section row" > 	
 		<span class="col-sm-3 inf">Get Post by id:</span>			
 			<input class="col-sm-5" type="text" placeholder="post id"   id="inp_getPostById_postId"  />
 			<button class="col-sm-3"  id="btn_postById"> Get Post by id  </button>			
 			<div class="col-sm-12 res"> </div>
 		</div> 
-		
+		<hr>
 		<div id="section_CreatePost" class="section row" > 	
-		<span class="col-sm-12 inf">write new post:</span>			
+		<span class="col-sm-12 inf">Write new post:</span>			
 			
-			<select class="col-sm-3" type="text" placeholder="post author"   id="inp_createPost_author"  />			
+			<select class="col-sm-3" type="text" placeholder="post author"   id="inp_createPost_author"  ></select>			
 			<textarea placeholder="Enter post content here" class="col-sm-12"  id="inp_createPost_content" ></textarea>
 			<button class="col-sm-3"  id="btn_createPost"> Create Post</button>			
 			<div class="col-sm-12 res"> </div>
 		</div> 
+		
+		
+		<hr>
 	
+		
+		<div id="section_GetPostsByAuthor" class="section row" > 	
+			<span class="col-sm-12 inf">Get posts by author:</span>						
+			<select class="col-sm-3" type="text" placeholder="post author"   id="inp_getPostsByAuthor_author" >	</select>					
+			<button class="col-sm-3"  id="btn_getPostsByAuthor">Get Posts</button>								
+			<div class="col-sm-12 res"> </div>
+		</div> 
 	
-	<div id="section_res" class="col-sm-3">
+	<hr>
 
-	</div>
 </div>
 	
 	<style>
@@ -73,7 +82,8 @@
 			data:dataString,
 			success:function(data){
 					$(data).each(function(index,_data){
-					$('#inp_createPost_author').append(new Option(_data["username"],_data["id"]))
+						$('#inp_createPost_author').append(new Option(_data["username"],_data["id"]));
+						$('#inp_getPostsByAuthor_author').append(new Option(_data["username"],_data["id"]));
 					}) 
 			},
 			error:function(err){

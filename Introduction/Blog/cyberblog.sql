@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 29, 2019 at 04:38 PM
+-- Generation Time: Dec 30, 2019 at 10:28 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -52,7 +52,14 @@ CREATE TABLE `posts` (
 
 INSERT INTO `posts` (`id`, `author`, `content`) VALUES
 (26, 83, 'asd'),
-(27, 82, 'zxcxzc');
+(27, 82, 'zxcxzc'),
+(28, 82, 'zxcxzc'),
+(29, 82, 'zxcxzc'),
+(30, 82, 'asd'),
+(31, 82, 'asd'),
+(32, 82, 'asd'),
+(33, 82, 'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero\'s De Finibus Bonorum et Malorum for use in a type specimen book. It usually begins wit'),
+(34, 83, 'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero\'s De Finibus Bonorum et Malorum for use in a type specimen book. It usually begins witasdasdasdasdasdasdasdas');
 
 -- --------------------------------------------------------
 
@@ -75,6 +82,28 @@ INSERT INTO `users` (`id`, `username`, `email`, `password`) VALUES
 (82, 'karnafun', '', '1234'),
 (83, 'hotdog', '', '123'),
 (84, 'hotdogz', '', '123');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `v_postswithauthorname`
+-- (See below for the actual view)
+--
+CREATE TABLE `v_postswithauthorname` (
+`id` int(11)
+,`authorId` int(11)
+,`author` varchar(50)
+,`content` varchar(3000)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `v_postswithauthorname`
+--
+DROP TABLE IF EXISTS `v_postswithauthorname`;
+
+CREATE ALGORITHM=TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_postswithauthorname`  AS  select `posts`.`id` AS `id`,`posts`.`author` AS `authorId`,`users`.`username` AS `author`,`posts`.`content` AS `content` from (`posts` join `users` on(`users`.`id` = `posts`.`author`)) ;
 
 --
 -- Indexes for dumped tables
@@ -114,7 +143,7 @@ ALTER TABLE `postcomments`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `users`

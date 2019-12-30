@@ -3,6 +3,7 @@ $(document).ready(function(e){
 			$('#btn_registerUser').click(register);
 			$('#btn_postById').click(getpostById);
 			$('#btn_createPost').click(createPost);
+			$('#btn_getPostsByAuthor').click(getPostsByAuthor);
 			
 			 dataString={"action":"getAllUsers"};
 
@@ -64,8 +65,6 @@ function register(){
 			}
 }
 
-
-
 function getpostById(){
 
 			var postId = $('#inp_getPostById_postId').val();
@@ -93,19 +92,22 @@ function getpostById(){
 }
 
 function createPost(){
-	console.log("function start");
+
 	var author = $('#inp_createPost_author').children("option:selected").val();
 	var content= $('#inp_createPost_content').val(); 
 	var data = {"author":author,"content":content}
 	var dataString ={"action":"createPost","data":data};
-	console.log("Sending:");
-	console.log(dataString);
+
 	$.ajax({
 		url:"./api.php",
 		method :"POST",
 		dataType:"json",
 		data:dataString,
 		success:function(data){
+			var res = "Post id: "+data["id"];
+			res+= ", Author: "+data["author"] + "<br>";
+			res+= data["content"];			
+			$('#section_CreatePost').find(".res").html(res);
 				console.log(data);
 		},
 		error:function(err){
@@ -115,6 +117,37 @@ function createPost(){
 }
 
 
+
+
+function getPostsByAuthor(){
+
+	var author = $('#inp_getPostsByAuthor_author').children("option:selected").val();	
+	var data = {"author":author}
+	var dataString ={"action":"getPostsByAuthor","data":data};
+	
+	$.ajax({
+		url:"./api.php",
+		method :"POST",
+		dataType:"json",
+		data:dataString,
+		success:function(data){
+				var res ="";
+				$(data).each(function(i,d){
+					var  id = d["id"];
+					var author = d["author"];
+					var content = d["content"];
+					res += '<div style="border:2px solid black; padding-left:10px;">';
+					res += "<p>post id: "+id+", post author: "+author+"</p>";
+					res += "<p>"+content+"</p>";
+					res+= "</div>";
+				})
+				$('#section_GetPostsByAuthor').find('.res').html(res);
+		},
+		error:function(err){
+			console.log(err.responseText);
+		}
+	});
+}
 
 
 

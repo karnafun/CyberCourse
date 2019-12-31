@@ -5,7 +5,7 @@
 	// $res = $sqlCmd->fetchAll();
 // print_r($res);
 
-
+session_start();
 if (!isset($_REQUEST["action"])){
 	echo 'You should not be here';
 	die();
@@ -51,20 +51,21 @@ if (!isset($_POST["data"]) || !isset($_POST["data"]["username"]) || !isset($_POS
 	$data = $_POST["data"]; 		
 	$username = $data["username"];
 	$password= $data["password"];	 
-
+	$_SESSION["user"] = $username;
 
 	$DB = new PDO("mysql:host=127.0.0.1;dbname=CyberBlog", "root", "");
 	$DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	$sqlCmd = $DB->prepare("SELECT * FROM users WHERE username=:username and password=:password");
 	 $sqlCmd->execute(array(":username"=>$username,":password"=>$password)); 
-
+header("content-type: application/json");
 	if($sqlCmd->rowCount() >0){
 			$res = $sqlCmd->fetch();
 			
-			header("content-type: application/json");
+			
 			echo '{"username":"'.$res["username"].'", "password":"'.$res["password"].'"}';
 	}else{
-		echo 'invalid username or password';
+			
+			echo '{"status":"failed", "message":"Invalid username or password"}';
 	}
 	
 	die(); 
@@ -73,7 +74,7 @@ if (!isset($_POST["data"]) || !isset($_POST["data"]["username"]) || !isset($_POS
  
  
  function register(){
-	 if (!isset($_POST["data"]) || !isset($_POST["data"]["username"]) || !isset($_POST["data"]["password"])){
+	 if (!isset($_POST["data"]) || !isset($_POST["data"]["username"]) || !isset($_POST["data"]["password"]) || !isset($_POST["data"]["email"])){
 	echo "Invalid request";
 	die();
 }
@@ -81,6 +82,7 @@ if (!isset($_POST["data"]) || !isset($_POST["data"]["username"]) || !isset($_POS
 	$data = $_POST["data"]; 		
 	$username = $data["username"];
 	$password= $data["password"];	 
+	$email= $data["email"];	 
 
 
 	$DB = new PDO("mysql:host=127.0.0.1;dbname=CyberBlog", "root", "");
@@ -93,8 +95,8 @@ if (!isset($_POST["data"]) || !isset($_POST["data"]["username"]) || !isset($_POS
 		$DB = new PDO("mysql:host=127.0.0.1;dbname=CyberBlog", "root", "");
 		$DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		
-		$sqlCmd = $DB->prepare("insert into users values (null,:username, '',:password)");
-		$sqlCmd->execute(array(":username"=>$username,":password"=>$password)); 
+		$sqlCmd = $DB->prepare("insert into users values (null,:username, :email,:password)");
+		$sqlCmd->execute(array(":username"=>$username,":email"=>$email,":password"=>$password)); 
 		if($sqlCmd->rowCount() >0){						
 		//get the user from the DB 
 		$sqlCmd = $DB->prepare("select * from users where username =  :username and password = :password");
@@ -210,7 +212,7 @@ function getPostById(){
 	$arr = array(); 
 
 	while($row = $sqlCmd->fetch()){ 
-		$post= array("id"=>$row["id"], "author"=>$row["author"],"content"=>$row["content"]);	
+		$post= $row;	
 		array_push($arr,$post);	
 	}
 	header("content-type: application/json");

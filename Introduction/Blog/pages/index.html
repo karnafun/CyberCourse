@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Bare - Start Bootstrap Template</title>
+
+  <!-- Bootstrap core CSS -->
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Start Bootstrap</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <!-- <ul class="navbar-nav ml-auto"> -->
+          <!-- <li class="nav-item active"> -->
+            <!-- <a class="nav-link" href="#">Home -->
+              <!-- <span class="sr-only">(current)</span> -->
+            <!-- </a> -->
+          <!-- </li> -->
+          <!-- <li class="nav-item"> -->
+            <!-- <a class="nav-link" href="#">About</a> -->
+          <!-- </li> -->
+          <!-- <li class="nav-item"> -->
+            <!-- <a class="nav-link" href="#">Services</a> -->
+          <!-- </li> -->
+          <!-- <li class="nav-item"> -->
+            <!-- <a class="nav-link" href="#">Contact</a> -->
+          <!-- </li> -->
+        <!-- </ul> -->
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+	  <div id="section_login" class="col-sm-5 offset-sm-4">	  
+        <h1 class="mt-5">Luremiya Ipsumiya </h1>   
+		<div class="form-group">		
+			<input class="form-control" type="text" placeholder="Username" id="inp_login_username" /> 
+			<span id="err_login_username"> </span> 
+		</div> 
+		<div class="form-group">		
+			<input class="form-control" type="password" placeholder="Password" id="inp_login_password" /> 		
+			<span id="err_login_password"> </span> 
+		</div>
+		<button id="btn_login" class="btn btn-primary btn-block"> Login </button> 
+		<span id="err_login"> </span> 
+		<div style="text-align:left;" class="col-sm-12"> 
+		<a href="#" id="a_goto_register"> Register </a> 
+		</div>
+	  </div>
+	  
+	  
+	  
+	  
+	  
+	    <div id="section_register" class="col-sm-5 offset-sm-4 d-none">	  
+        <h1 class="mt-5">Luremiya Ipsumiya </h1>   
+		<div class="form-group">		
+			<input class="form-control" type="text" placeholder="Username" id="inp_register_username" /> 
+			<span id="err_register_username"> </span> 
+		</div> 
+		<div class="form-group">		
+			<input class="form-control" type="password" placeholder="Password" id="inp_register_password" /> 		
+			<span id="err_register_password"> </span> 
+		</div>
+		<div class="form-group">		
+			<input class="form-control" type="password" placeholder="Verify Password" id="inp_register_password_verify" /> 		
+			<span id="err_register_password_verify"> </span> 
+		</div>
+		<div class="form-group">		
+			<input class="form-control" type="email" placeholder="Email address" id="inp_register_email" /> 		
+			<span id="err_register_email"> </span> 
+		</div>
+		<button id="btn_register" class="btn btn-primary btn-block"> Register </button> 
+		<span id="err_register"> </span> 
+		<div style="text-align:left;" class="col-sm-12"> 
+		<a href="#" id="a_goto_login"> login  </a> 
+		</div>
+	  </div>
+	  
+	  
+	  
+  </div>
+
+
+<script> 
+
+$(document).ready(function(){
+	$('#btn_login').click(login);	
+	$('#btn_register').click(register);	
+	$('#a_goto_register,#a_goto_login').click(toggleForms)
+});  
+
+
+function toggleForms(){
+	login =$('#section_login');
+	register  =$('#section_register');
+
+	
+	if ($(register).hasClass('d-none')){
+		$(login).addClass('d-none');
+		$(register).removeClass('d-none');
+	}else {
+			$(register).addClass('d-none');
+			$(login).removeClass('d-none');
+	}
+	
+}
+
+
+function  register(){
+		var username = $('#inp_register_username').val();
+		var password = $('#inp_register_password').val();
+		var verifyPassword = $('#inp_register_password_verify').val(); 
+		var email = $('#inp_register_email').val();
+		if(username.trim().length == 0){
+			$('#err_register_username').text("Must choose a username");
+			return;
+		}
+		if(email.trim().length == 0){
+			$('#err_register_email').text("Must choose a email");
+			return;
+		}		
+		if(password != verifyPassword){
+			$('#err_register_password_verify').text("Passwords don't match");			
+			return;
+		}
+	 
+		var dataArray = {"username":username, "password":password,"email":email}; 
+		var data = {"action":"register", "data":dataArray };
+	 
+		$.ajax({
+			method:"POST",
+			url:"../dbtest/api.php",
+			data:data,
+			dataType:"json",
+			success:function(results){
+			
+				if (results["message"]){
+				$('#err_register').text(results["message"]);	
+					return;
+				 }else{
+					$('#err_register').text(results["username"] +" was added successfully")
+				 }
+
+			},
+			error:function(error){
+				$('#err_login').text("An error has occurred, please try again")
+			}
+		})
+} 
+function login(){
+
+
+		var username = $('#inp_login_username').val();
+		var password = $('#inp_login_password').val();
+		var dataArray = {"username":username, "password":password}; 
+		var data = {"action":"login", "data":dataArray };
+
+		$.ajax({
+			method:"POST",
+			url:"../dbtest/api.php",
+			data:data,
+			dataType:"json",
+			success:function(results){
+			
+				if (results["message"]){
+				$('#err_login').text(results["message"]);	
+					return;
+				 }else{
+					window.location = "./profile.html";
+				 }
+
+			},
+			error:function(error){
+
+				$('#err_login').text("An error has occurred, please try again")
+			}
+		})
+	
+}
+ </script> 
+</body>
+
+</html>

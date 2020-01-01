@@ -75,8 +75,8 @@
 	</style>
 	<script> 
 	$(document).ready(function(){		 
-				$.ajax({
-			url:"./api.php",
+		$.ajax({
+			url:"../../logic/api.php",
 			method :"get",
 			dataType:"json",
 			data:dataString,

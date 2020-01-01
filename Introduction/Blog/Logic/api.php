@@ -60,9 +60,10 @@ if (!isset($_POST["data"]) || !isset($_POST["data"]["username"]) || !isset($_POS
 header("content-type: application/json");
 	if($sqlCmd->rowCount() >0){
 			$res = $sqlCmd->fetch();
+			$arr = array("username"=>$res["username"], "id"=>$res["id"]);
+			echo json_encode($arr);
 			
-			
-			echo '{"username":"'.$res["username"].'", "password":"'.$res["password"].'"}';
+			//echo '{"username":"'.$res["username"].'", "password":"'.$res["password"].'"}';
 	}else{
 			
 			echo '{"status":"failed", "message":"Invalid username or password"}';

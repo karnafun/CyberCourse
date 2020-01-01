@@ -18,6 +18,8 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
 
+
+<script src="../js/posts.js"> </script> 
 </head>
 
 <body>
@@ -58,7 +60,7 @@
       <!-- Blog Entries Column -->
       <div class="col-md-8">
 
-        <h1 class="my-4">Page Heading
+        <h1 class="my-4">View Posts
           <small>Secondary Text</small>
         </h1>
 
@@ -79,14 +81,14 @@
 
      
         <!-- Pagination -->
-        <ul class="pagination justify-content-center mb-4">
-          <li class="page-item">
-            <a class="page-link" href="#">&larr; Older</a>
-          </li>
-          <li class="page-item disabled">
-            <a class="page-link" href="#">Newer &rarr;</a>
-          </li>
-        </ul>
+        <!-- <ul class="pagination justify-content-center mb-4"> -->
+          <!-- <li class="page-item"> -->
+            <!-- <a class="page-link" href="#">&larr; Older</a> -->
+          <!-- </li> -->
+          <!-- <li class="page-item disabled"> -->
+            <!-- <a class="page-link" href="#">Newer &rarr;</a> -->
+          <!-- </li> -->
+        <!-- </ul> -->
 
       </div>
 
@@ -98,9 +100,9 @@
           <h5 class="card-header">Search</h5>
           <div class="card-body">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search for...">
+              <div id="search-text">Get Posts From: </div></br> <select id="select_users">  </select> 
               <span class="input-group-btn">
-                <button class="btn btn-secondary" type="button">Go!</button>
+                <button id="btn_searchPost" class="btn btn-secondary" type="button">Go!</button>
               </span>
             </div>
           </div>
@@ -165,57 +167,22 @@
     <!-- /.container -->
   </footer>
 
-
-<script> 
-
-$(document).ready(function(){
-	
-	<!-- results = []; -->
-	<!-- results["img"]="hotdogimg"; -->
-	<!-- results["content"]="hotdogcontent"; -->
-	<!-- results["title"]="hotdogtitle";  -->
-	var data = {"author":82}
-	var dataString = {"action":"getPostsByAuthor","data":data}
-	
-	$.ajax({
-		method:"POST",
-		url:"../dbtest/api.php",
-		data :dataString,
-		success:function(results){
-		
-			 $(results).each(function(i,d){
-			 console.log(d);
-			console.log(d["img"]);
-				var string = ` <div class="card mb-4">
-			  <img class="card-img-top" src=`+d["image"]+`  alt="Card image cap">
-			  <div class="card-body">
-				<h2 class="card-title">`+d["title"]+`</h2>
-				<p class="card-text">  `+d["content"]+` </p>
-				<a href="#" class="btn btn-primary">Read More &rarr;</a>
-			  </div>
-			  </div>`
-				$(".blogPosts").append(string); 
-				console.log("BHOTDOG?");
-				
-			 })
-		}
-		
-	
-	
-	});
-		
-       
-		
-}); 
-
-   
- </script> 
  
  <style> 
  .card-img-top{
 	height:300px;
  }
- </style> 
+ #search-text{
+	 font-size:20px;
+	 width:100%;
+ }  
+ 
+ #select_users{
+	font-size:16px;
+	font-weight:600;
+	margin: 0 5px;
+ }
+ </style>  
 </body>
 
 </html>

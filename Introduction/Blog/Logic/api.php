@@ -35,6 +35,12 @@ switch ($action){
 	case "getPostsByAuthor":
 		getPostsByAuthor();
 	break;
+	case "getComments":
+		getComments();
+	break;
+	case "addComment":
+		addComment();
+	break;
 	default: 
 		echo " unknown action ".$action;
 	break;
@@ -138,7 +144,7 @@ function getPostById(){
 	if($sqlCmd->rowCount() >0){ 
 			$res = $sqlCmd->fetch();			
 			header("content-type: application/json"); 			
-			$arr = array("id"=>$res["id"],"title"=>$res["title"],"content"=>$res["content"], "image"=>$res["image"],"author"=>$res["author"],"authorId"=>$res["authorId"]);
+			$arr = array("id"=>$res["id"],"title"=>$res["title"],"content" =>$res["content"], "image"=>$res["image"],"author"=>$res["author"],"authorId"=>$res["authorId"]);
 			echo json_encode($arr);
 			 
 	}else{
@@ -224,6 +230,45 @@ function getPostById(){
  
  
  
+ 
+ function getComments(){
+	$data = $_POST["data"]; 		
+	$postId = $data["postId"];	
+	$DB = new PDO("mysql:host=127.0.0.1;dbname=CyberBlog", "root", "");
+	$DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$sqlCmd = $DB->prepare("SELECT * FROM v_comments where postId= :postId order by commentId asc ");
+	$sqlCmd->execute(array(":postId"=>$postId));
+	$arr = array(); 
+
+	while($row = $sqlCmd->fetch()){ 
+		$post= $row;	
+		array_push($arr,$post);	
+	}
+	header("content-type: application/json");
+	echo json_encode($arr);
+ } 
+ 
+ function addComment(){
+	$data = $_POST["data"]; 		
+	$postId = $data["postId"];
+	$authorId = $data["authorId"];
+	$title = $data["title"];
+	$content= $data["content"];
+	$DB = new PDO("mysql:host=127.0.0.1;dbname=CyberBlog", "root", "");
+	$DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$sqlCmd = $DB->prepare("insert into comments values (null,:postId,:authorId,:title,:content)");
+	$sqlCmd->execute(array(":postId"=>$postId,":authorId"=>$authorId,":title"=>$title,":content"=>$content));
+	if ($sqlCmd->rowcount() >0 ){
+		$sqlCmd = $DB->prepare("select * from v_comments where postId=:postId and authorId=:authorId and title=:title and content=:content");
+		$sqlCmd->execute(array(":postId"=>$postId,":authorId"=>$authorId,":title"=>$title,":content"=>$content));
+		$row =  $sqlCmd->fetch();
+		header("content-type: application/json");
+		echo json_encode($row);
+	}else {
+		echo 'pizda! ' ;
+	}
+
+ }
  
  
  ?> 

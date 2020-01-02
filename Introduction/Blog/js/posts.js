@@ -36,6 +36,7 @@ $(document).ready(function(){
 					$(".blogPosts").append(string);
 				}
 			 $(results).each(function(i,d){
+				 console.log(d);
 				//Cut content into as summery 
 				var numberOfWords = 30;
 				var cutAt  =d["content"].split(' ', numberOfWords ).join(' ').length;
@@ -50,7 +51,7 @@ $(document).ready(function(){
 									<div class="card-body">
 									<h2 class="card-title">`+d["title"]+`</h2>
 									<p class="card-text">  `+summery+` </p>
-									<a href="#" class="btn btn-primary">Read More &rarr;</a>
+									<a href="./fullpost.html?id=`+d["id"]+`" class="btn btn-primary">Read More &rarr;</a>
 									</div>
 									<div class="card-footer text-muted">
 										Written by `+d["author"]+`

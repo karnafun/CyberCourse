@@ -1,12 +1,12 @@
 apiUrl = "../logic/api.php" ;
-$(document).ready(function(){
-	   GetPost();
-
-		var postId  = getUrlParameter("id");
-	 getPostById(postId)
+postId= getUrlParameter("id");
+$(document).ready(function(){	
+	 getPostById()
+	 getComments();
+	 $('#btn_post_submit').click(addComment)
 })
 
- function getPostById(postId){
+ function getPostById(){
 	 
 	var data = {"postId":postId}
 	var dataString = {"action":"getPostById","data":data}
@@ -24,12 +24,6 @@ $(document).ready(function(){
 		})
 }		
 
- 
- 
-  
-
-function GetPost(){
-} 
 
 
   function getUrlParameter(sParam) {
@@ -46,3 +40,61 @@ function GetPost(){
         }
     }
 };
+
+
+
+function getComments(){
+	var data = {"postId":postId}
+	var dataString = {"action":"getComments","data":data}
+	
+		$.ajax({
+			method:"POST",
+			url:apiUrl,
+			data :dataString,
+			success:function(results){	
+			$('.comments').html(' ');
+				$(results).each(function(index,data){
+					var title = data["title"];
+					var content= data["content"];
+					var author= data["author"];
+					var id= data["authorId"];
+					
+					var resultString = `
+					<div class="comment ">				
+						<p class="comment_title"> `+title+` <span class="comment_user" > `+author+` </span> </p>				
+						<p class="comment_content"> `+content+` id: `+id+`</p> 
+					</div> 
+										`
+					$('.comments').append(resultString)
+					
+				});
+			}
+		})
+	
+}
+
+
+
+
+function addComment (){
+	
+	var title= $('#inp_comment_title').val();
+	var authorId=sessionStorage.getItem("userId"); 
+	var content =$('#inp_comment_content').val();	 	
+	var data = {"postId":postId,"title":title,"authorId":authorId,"content":content}
+	var dataString = {"action":"addComment","data":data}
+	
+		$.ajax({ 
+			method:"POST",
+			url:apiUrl,
+			data :dataString,
+			success:function(results){	
+			
+				if(results["commentId"]){
+					getComments();
+				}
+			}
+		})
+	
+}
+

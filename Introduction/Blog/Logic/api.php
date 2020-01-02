@@ -132,15 +132,15 @@ function getPostById(){
 
 	$DB = new PDO("mysql:host=127.0.0.1;dbname=CyberBlog", "root", "");
 	$DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	$sqlCmd = $DB->prepare("SELECT * FROM posts WHERE id=:postId");
+	$sqlCmd = $DB->prepare("SELECT * FROM v_postswithauthorname WHERE id=:postId");
 	$sqlCmd->execute(array(":postId"=>$postId)); 
  
 	if($sqlCmd->rowCount() >0){ 
 			$res = $sqlCmd->fetch();			
 			header("content-type: application/json"); 			
-			// echo '{"pizda":"'.$res["id"].'"}';
-			 $arr = '{"id":"'.$res["id"].'", "author":"'.$res["author"].'" , "content":"'.$res["content"].'"}';
-			echo '{"post":'.$arr.'}';
+			$arr = array("id"=>$res["id"],"title"=>$res["title"],"content"=>$res["content"], "image"=>$res["image"],"author"=>$res["author"],"authorId"=>$res["authorId"]);
+			echo json_encode($arr);
+			 
 	}else{
 		echo "Couldn't find your post";
 	}
@@ -160,20 +160,22 @@ function getPostById(){
 	$data = $_POST["data"]; 		 	
 	$author= $data["author"];	 
 	$content= $data["content"];	 
-
-
+	$title= $data["title"];	 
+	$image= $data["image"];	  
 	$DB = new PDO("mysql:host=127.0.0.1;dbname=CyberBlog", "root", "");
 	$DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	
 	
-	$sqlCmd = $DB->prepare("insert into posts values (null,:author,:content)");
-	$sqlCmd->execute(array(":author"=>$author,":content"=>$content)); 
+	$sqlCmd = $DB->prepare("insert into posts values (null,:author,:title,:content,:image)");
+	$sqlCmd->execute(array(":author"=>$author,":content"=>$content,":title"=>$title, ":image"=>$image)); 
 	if($sqlCmd->rowCount() >0){							
-	$sqlCmd = $DB->prepare("select * from posts where author =  :author and content= :content order by id desc");
+	$sqlCmd = $DB->prepare("select * from v_postswithauthorname where authorId =  :author and content= :content order by id desc");
 	$sqlCmd->execute(array(":author"=>$author,":content"=>$content)); 
 	$res = $sqlCmd->fetch();
-		header("content-type: application/json");
-		echo '{"id":"'.$res["id"].'","author":"'.$res["author"].'", "content":"'.$res["content"].'"}';			
+		header("content-type: application/json");   
+		//echo $res;
+		$resArray = array("id"=>$res["id"],"author"=>$res["author"],"content"=>$res["content"],"title"=>$res["title"], "image"=>$res["image"]);	
+		echo json_encode($resArray);
 	}else{
 		echo 'Failed adding the post to the database';
 	}
@@ -208,7 +210,7 @@ function getPostById(){
 	$author = $data["author"];	
 	$DB = new PDO("mysql:host=127.0.0.1;dbname=CyberBlog", "root", "");
 	$DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	$sqlCmd = $DB->prepare("SELECT * FROM v_postswithauthorname where authorId = :author");
+	$sqlCmd = $DB->prepare("SELECT * FROM v_postswithauthorname where authorId = :author order by id desc");
 	$sqlCmd->execute(array(":author"=>$author));
 	$arr = array(); 
 

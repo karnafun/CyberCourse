@@ -30,29 +30,41 @@ $(document).ready(function(){
 		data :dataString,
 		success:function(results){	
 	$(".blogPosts").html(" ");
+
+				if(results.length ==0 ){
+					var string = "<h3> No Posts found for current user </h3>";
+					$(".blogPosts").append(string);
+				}
 			 $(results).each(function(i,d){
 				//Cut content into as summery 
-				 var numberOfWords = 30;
-				 var cutAt  =d["content"].split(' ', numberOfWords ).join(' ').length;
-				 var summery  = d["content"].substr(0,cutAt)+"...";
+				var numberOfWords = 30;
+				var cutAt  =d["content"].split(' ', numberOfWords ).join(' ').length;
+				var summery = d["content"];
+				if	(summery.length > 50){
+						summery  = d["content"].substr(0,cutAt)+"...";
+				} 
+				
 				   
 				var string = ` <div class="card mb-4">
-					<img class="card-img-top" src=`+d["image"]+`  alt="Card image cap">
-					<div class="card-body">
-					<h2 class="card-title">`+d["title"]+`</h2>
-					<p class="card-text">  `+summery+` </p>
-					<a href="#" class="btn btn-primary">Read More &rarr;</a>
-					</div>
-					</div>`
-				
-			$(".blogPosts").append(string); 							
+									<img class="card-img-top" src=`+d["image"]+`  alt="Card image cap">
+									<div class="card-body">
+									<h2 class="card-title">`+d["title"]+`</h2>
+									<p class="card-text">  `+summery+` </p>
+									<a href="#" class="btn btn-primary">Read More &rarr;</a>
+									</div>
+									<div class="card-footer text-muted">
+										Written by `+d["author"]+`
+										
+									</div>					
+								</div>`				
+				$(".blogPosts").append(string); 							
 			 })
 		}		
 	});
  }
  
  
- 
+  
  function PopulateSelectWithAuthors(selectElement){
 	  dataString={"action":"getAllUsers"};
 	  

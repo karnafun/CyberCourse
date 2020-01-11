@@ -86,6 +86,7 @@ function login(){
 				 }else{
 					 //console.log(results);
 					 sessionStorage.setItem("userId",results["id"])
+					 sessionStorage.setItem("username",results["username"])
 					window.location = "./posts.html";
 				 }
 

@@ -1,3 +1,10 @@
+var uId = sessionStorage.getItem("userId");
+if(uId === undefined  || uId === null){
+		window.location = "./index.html";
+} 
+
+
+
 apiUrl = "../logic/api.php" ;
 postId= getUrlParameter("id");
 $(document).ready(function(){	

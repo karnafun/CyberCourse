@@ -1,3 +1,8 @@
+var uId = sessionStorage.getItem("userId");
+if(uId === undefined  || uId === null){
+		window.location = "./index.html";
+} 
+
 $(document).ready(function(){
 	var uId = sessionStorage.getItem("userId");
 	 if( uId == undefined){

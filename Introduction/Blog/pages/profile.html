@@ -1,0 +1,136 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Write Post</title>
+
+  <!-- Bootstrap core CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="../js/profile.js"> </script> 
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Start Bootstrap</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item ">
+            <a class="nav-link" href="posts.html">Posts              
+            </a>
+          </li>
+		   <li class="nav-item ">
+            <a class="nav-link" href="write-post.html">Create Post</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="profile.html">Profile</a>
+          </li>
+         
+          <li class="nav-item">
+            <a class="nav-link" href="./logout.php">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="mt-5 container">
+  
+    <div class="row">
+	
+	<div class="col-sm-12" >
+		<h1 id="h_title" class="mt-5">Profile Page </h1>  
+	</div> 
+		<div id="div_main" class="col-sm-4  row ">
+		<div class="col-sm-12"> 
+			<div class="card ">
+			  <h5 class="card-header">Change Username</h5>
+			  <div class="card-body">
+				<div class="form-group">		
+					<input class="form-control" placeholder="Insert New Username "   type="text"  id="inp_username_new" /> 
+					<span id="err_username_new"> </span> 
+				</div> 
+
+				<button id="btn_username_submit" class="btn btn-primary btn-block"> Change Username  </button> 
+				<span id="err_submit"> </span> 
+			  </div>
+			</div>
+		</div> 
+		<div class="col-sm-12"> 
+		  <div  class="card ">	  
+			  <!-- <h5> Change Password </h5>  -->
+			  <h5 class="card-header">Change Password</h5>
+				<div class="card-body">
+						   
+						<div class="form-group">		
+					  
+							<input class="form-control" placeholder="Old Password"   type="password"  id="inp_password_old" /> 
+							<span id="err_password_old"> </span> 
+						</div> 
+						<div class="form-group">		
+						  <!-- <label >New Password:</label> -->
+							<input class="form-control" type="password" placeholder="New Password"  id="inp_password_new" /> 
+							<span id="err_password_new"> </span> 
+						</div> 		
+						<div class="form-group">		
+						  <!-- <label >Confirm New Password:</label> -->
+							<input class="form-control" placeholder="Confirm New Password" type="password"  id="inp_password_confirm" /> 
+							<span id="err_password_confrim"> </span> 
+						</div>
+						<button id="btn_changePassword_submit" class="btn btn-primary btn-block"> Change Password  </button> 
+						<span id="err_submit"> </span> 			
+				</div>
+		  </div>
+		  
+		  </div> 
+		  
+		  <!--  Change Username -->
+		 <!-- <div  class="col-sm-4 ">	   -->
+			
+			<!-- <div class="form-group">		 -->
+			
+				<!-- <input class="form-control" placeholder="Insert New Username "   type="text"  id="inp_username_new" />  -->
+				<!-- <span id="err_username_new"> </span>  -->
+			<!-- </div>  -->
+
+			<!-- <button id="btn_username_submit" class="btn btn-primary btn-block"> Change Username  </button>  -->
+			<!-- <span id="err_submit"> </span> 			 -->
+		  <!-- </div> -->
+		  
+
+		  
+		  
+		</div>
+	</div> 
+  </div>
+  <!-- /.container -->
+
+ <style> 
+ #div_main{	
+	margin-top:5%;
+ } 
+ #h_title{
+	text-align:center;
+ }
+ 
+ 
+ </style>
+
+</body>
+
+</html>

@@ -41,6 +41,12 @@ switch ($action){
 	case "addComment":
 		addComment();
 	break;
+	case "changePassword":
+		changePassword();
+	break;
+	case "changeUsername":
+		changeUsername();
+	break; 
 	default: 
 		echo " unknown action ".$action;
 	break;
@@ -57,7 +63,7 @@ if (!isset($_POST["data"]) || !isset($_POST["data"]["username"]) || !isset($_POS
 	$data = $_POST["data"]; 		
 	$username = $data["username"];
 	$password= $data["password"];	 
-	$_SESSION["user"] = $username;
+	
 
 	$DB = new PDO("mysql:host=127.0.0.1;dbname=CyberBlog", "root", "");
 	$DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -65,7 +71,10 @@ if (!isset($_POST["data"]) || !isset($_POST["data"]["username"]) || !isset($_POS
 	 $sqlCmd->execute(array(":username"=>$username,":password"=>$password)); 
 header("content-type: application/json");
 	if($sqlCmd->rowCount() >0){
+		
 			$res = $sqlCmd->fetch();
+			$_SESSION["user"] = $username;
+			$_SESSION["userId"] = $res["id"];
 			$arr = array("username"=>$res["username"], "id"=>$res["id"]);
 			echo json_encode($arr);
 			
@@ -144,8 +153,8 @@ function getPostById(){
 	if($sqlCmd->rowCount() >0){ 
 			$res = $sqlCmd->fetch();			
 			header("content-type: application/json"); 			
-			$arr = array("id"=>$res["id"],"title"=>$res["title"],"content" =>$res["content"], "image"=>$res["image"],"author"=>$res["author"],"authorId"=>$res["authorId"]);
-			echo json_encode($arr);
+			//$arr = array("id"=>$res["id"],"title"=>$res["title"],"content" =>$res["content"], "image"=>$res["image"],"author"=>$res["author"],"authorId"=>$res["authorId"]);
+			echo json_encode($res);
 			 
 	}else{
 		echo "Couldn't find your post";
@@ -240,9 +249,8 @@ function getPostById(){
 	$sqlCmd->execute(array(":postId"=>$postId));
 	$arr = array(); 
 
-	while($row = $sqlCmd->fetch()){ 
-		$post= $row;	
-		array_push($arr,$post);	
+	while($row = $sqlCmd->fetch()){ 	
+		array_push($arr,$row);	
 	}
 	header("content-type: application/json");
 	echo json_encode($arr);
@@ -265,9 +273,46 @@ function getPostById(){
 		header("content-type: application/json");
 		echo json_encode($row);
 	}else {
-		echo 'pizda! ' ;
+		echo 'No results ' ;
 	}
 
+ }
+ 
+ function changePassword(){
+	$data = $_POST["data"]; 		
+	$password_old= $data["password_old"];
+	$password_new = $data["password_new"];
+	
+	$DB = new PDO("mysql:host=127.0.0.1;dbname=CyberBlog", "root", "");
+	$DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);	
+	$sqlCmd = $DB->prepare("select * from users where id = :id and username = :username and password = :password");
+	$sqlCmd->execute(array(":id"=>$_SESSION["userId"],":username"=>$_SESSION["user"],":password"=>$password_old));
+	if ($sqlCmd->rowCount() > 0){
+		$sqlCmd = $DB->prepare("update users set password=:password where id = :id and username = :username ");
+		$sqlCmd->execute(array(":id"=>$_SESSION["userId"],":username"=>$_SESSION["user"],":password"=>$password_new));
+		echo 'password updated successfully';
+	}else {
+		 echo 'password incorrect'; 
+	}
+ }
+ 
+ 
+ function changeUsername(){
+	$data = $_POST["data"]; 		
+	$username_new= $data["username_new"];	 
+	
+	$DB = new PDO("mysql:host=127.0.0.1;dbname=CyberBlog", "root", "");
+	$DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);	
+	$sqlCmd = $DB->prepare("update users set username = :username where id = :id");
+	$sqlCmd->execute(array(":id"=>$_SESSION["userId"],":username"=>$username_new));
+	$sqlCmd = $DB->prepare("select username from users where id = :id");
+	$sqlCmd->execute(array(":id"=>$_SESSION["userId"]));
+	$row = $sqlCmd->fetch();
+	if($row["username"] == $username_new){
+		echo 'username updated successfully';
+	} else {
+		echo "error, username was not changed.";
+	}
  }
  
  

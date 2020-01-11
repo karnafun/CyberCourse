@@ -1,6 +1,14 @@
+	var uId = sessionStorage.getItem("userId");
+	if(uId === undefined  || uId === null){
+			window.location = "./index.html";
+	}
 
-var apiUrl = "../logic/api.php"
+
+
+var apiUrl = "../logic/api.php";
 $(document).ready(function(){
+	
+
 	InitPage();     
 	
 	$('#btn_searchPost').click(searchPosts)
@@ -29,7 +37,7 @@ $(document).ready(function(){
 		url:apiUrl,
 		data :dataString,
 		success:function(results){	
-	$(".blogPosts").html(" ");
+			$(".blogPosts").html(" ");
 
 				if(results.length ==0 ){
 					var string = "<h3> No Posts found for current user </h3>";
